@@ -44,25 +44,25 @@ def generate_password():
 
 st.title('Lisää tiedot')
 
-st.sidebar.subheader('Add New User')
-username = st.sidebar.text_input('Username', key='new_user_username')
-if st.sidebar.button('Generate and Add User'):
+st.subheader('Add New User')
+username = st.text_input('Username', key='new_user_username')
+if st.button('Generate and Add User'):
     new_password = generate_password() 
     add_user(username, new_password)
-    st.sidebar.write(f"New user {username} created with password: {new_password}")
+    st.write(f"New user {username} created with password: {new_password}")
 
 st.sidebar.subheader('Add New Job')
-job_name = st.sidebar.text_input('Job Name', key='new_job_name')
-job_description = st.sidebar.text_area('Job Description', key='new_job_description')
-main_table = st.sidebar.text_input('Main Table', key='new_job_main_table')
-category = st.sidebar.text_input('Category', key='new_job_category')
-progress = st.sidebar.text_input('Progress', key='new_job_progress') 
-begin_date = st.sidebar.date_input('Begin Date', key='new_job_begin_date')
-end_date = st.sidebar.date_input('End Date', key='new_job_end_date')
+job_name = st.text_input('Job Name', key='new_job_name')
+job_description = st.text_area('Job Description', key='new_job_description')
+main_table = st.text_input('Main Table', key='new_job_main_table')
+category = st.text_input('Category', key='new_job_category')
+progress = st.text_input('Progress', key='new_job_progress') 
+begin_date = st.date_input('Begin Date', key='new_job_begin_date')
+end_date = st.date_input('End Date', key='new_job_end_date')
 
-if st.sidebar.button('Add Job'):
+if st.button('Add Job'):
     add_job(job_name, job_description, main_table, category, progress, begin_date, end_date)
-    st.sidebar.success('Job added successfully.')
+    st.success('Job added successfully.')
 
 st.markdown('## Update Existing Records')
 
