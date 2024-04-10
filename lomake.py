@@ -42,6 +42,18 @@ def add_job(job_name, job_description, main_table, category, progress, begin_dat
 def generate_password():
     return ''.join(random.choices(string.ascii_letters, k=6))
 
+def update_job(job_id, job_name, job_description, main_table, category, progress, begin_date, end_date):
+    conn = create_connection()
+    cursor = conn.cursor()
+    query = """
+    UPDATE Jobs 
+    SET JobName = ?, JobDescription = ?, mainTable = ?, Category = ?, Progress = ?, begin_date = ?, end_date = ? 
+    WHERE JobID = ?
+    """
+    cursor.execute(query, job_name, job_description, main_table, category, progress, begin_date, end_date, job_id)
+    conn.commit()
+    conn.close()
+
 st.title('Lisää tiedot')
 
 st.subheader('Add New User')
@@ -51,7 +63,7 @@ if st.button('Generate and Add User'):
     add_user(username, new_password)
     st.write(f"New user {username} created with password: {new_password}")
 
-st.sidebar.subheader('Add New Job')
+st.subheader('Add New Job')
 job_name = st.text_input('Job Name', key='new_job_name')
 job_description = st.text_area('Job Description', key='new_job_description')
 main_table = st.text_input('Main Table', key='new_job_main_table')
@@ -64,5 +76,19 @@ if st.button('Add Job'):
     add_job(job_name, job_description, main_table, category, progress, begin_date, end_date)
     st.success('Job added successfully.')
 
-st.markdown('## Update Existing Records')
+st.subheader('Update existing job')
+
+job_id_to_update = st.number_input('Enter Job ID to Update', value=0, step=1)
+
+update_job_name = st.text_input('Job Name', key='update_job_name')
+update_job_description = st.text_area('Job Description', key='update_job_description')
+update_main_table = st.text_input('Main Table', key='update_job_main_table')
+update_category = st.text_input('Category', key='update_job_category')
+update_progress = st.text_input('Progress', key='update_job_progress')
+update_begin_date = st.date_input('Begin Date', key='update_job_begin_date')
+update_end_date = st.date_input('End Date', key='update_job_end_date')
+
+if st.button('Update Job'):
+    update_job(job_id_to_update, update_job_name, update_job_description, update_main_table, update_category, update_progress, update_begin_date, update_end_date)
+    st.success(f'Job ID {job_id_to_update} updated successfully.')
 
